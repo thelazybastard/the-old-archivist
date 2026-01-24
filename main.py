@@ -1,9 +1,10 @@
 # TODO:
 #   - DO NOT FORGET TO CHANGE PATH ONCE WHOLE TOOL HAS BEEN MADE
 #   - DO NOT FORGET TO CHANGE TIMEDELTA IN find_archivable_items_in_path() WHEN DONE DEBUGGING AND TESTING
-#   - turn script into CLI tool
 #   - runs indefinitely in background until users stop it
 #   - users define folder the tool will operate on
+#   - turn script into CLI tool
+#   - make a separate GUI tool
 
 
 from pathlib import Path
@@ -11,13 +12,22 @@ from datetime import datetime, timedelta
 import zipfile
 import shutil
 
-# find the download path
-downloads_path = Path.home() / "Downloads/demo"
+# find the main path
+user_input = input("Enter directory name: ")
+# set directory path
+main_directory_path = Path.home() / user_input
+
+# group the main functions
+def main():
+    convert_old_files_to_zip()
+    delete_original_uncompressed_files()
+    
+
 
 # create timestamps for when the file/folder was last used,modified or created.
 # only files that have been ALL unused, unmodified, and created a very long time ago can be archived
 def find_archivable_items_in_path():
-    for item in downloads_path.iterdir():
+    for item in main_directory_path.iterdir():
         # creates timestamps of directories and files
         if item.is_dir() or item.is_file():
         # creates a log of when they were last used
@@ -37,13 +47,13 @@ def find_archivable_items_in_path():
 # converts files and folders into zip files
 def convert_to_zip():
     # goes through every item in directory
-    for item in downloads_path.iterdir():
+    for item in main_directory_path.iterdir():
         # skips item if already a zip file
         if item.suffix == '.zip':
             continue
 
         # dynamic naming of zip file
-        zip_name = downloads_path / f'{item.stem}.zip'
+        zip_name = main_directory_path / f'{item.stem}.zip'
 
         # archives folder subdirectories in path and scans recursively in them
         if item.is_dir():
@@ -55,7 +65,7 @@ def convert_to_zip():
         # archives files in path
         else:
             with zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED,  allowZip64=True) as zipf:
-                zipf.write(item, arcname=item.relative_to(downloads_path)) # maintain folder structure in zip file
+                zipf.write(item, arcname=item.relative_to(main_directory_path)) # maintain folder structure in zip file
 
 
 def convert_old_files_to_zip():
@@ -63,14 +73,13 @@ def convert_old_files_to_zip():
         convert_to_zip()
 
 def delete_original_uncompressed_files():
-    for item in downloads_path.iterdir():
+    for item in main_directory_path.iterdir():
         if item.suffix != '.zip' and find_archivable_items_in_path():
             if item.is_dir():
                 shutil.rmtree(item)
             elif item.is_file():
                 item.unlink()
 
-convert_old_files_to_zip()
-delete_original_uncompressed_files()
+main()
 
 
