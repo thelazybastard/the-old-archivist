@@ -1,7 +1,9 @@
 # TODO:
+#   - DO NOT FORGET TO CHANGE PATH ONCE WHOLE TOOL HAS BEEN MADE
 #   - DO NOT FORGET TO CHANGE TIMEDELTA IN find_archivable_items_in_path() WHEN DONE DEBUGGING AND TESTING
 #   - turn script into CLI tool
 #   - runs indefinitely in background until users stop it
+#   - users define folder the tool will operate on
 
 
 from pathlib import Path
