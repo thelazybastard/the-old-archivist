@@ -71,7 +71,8 @@ def find_archivable_items_in_path(main_directory_path):
             # how many days before the file needs to be archived
             still_in_use = max(date_modified, date_accessed) - timedelta(days=180)
             return still_in_use
-
+    #finally the stupid fucking IDE gave no warnings 
+    return None
 
 # converts files and folders into zip files
 def convert_to_zip(main_directory_path):
@@ -97,16 +98,20 @@ def convert_to_zip(main_directory_path):
             with zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED,  allowZip64=True) as zipf:
                 zipf.write(item, arcname=item.relative_to(main_directory_path)) # maintain folder structure in zip file
 
-
+# converts old files to zip files
 def convert_old_files_to_zip(main_directory_path):
     if find_archivable_items_in_path(main_directory_path):
         convert_to_zip(main_directory_path)
 
+# deletes the original files that got compressed
 def delete_original_uncompressed_files(main_directory_path):
+    # iterate through the directory and only looks for .zip files belonging to the items it archived
     for item in main_directory_path.iterdir():
         if item.suffix != '.zip' and find_archivable_items_in_path(main_directory_path):
+            # if the item is a directory, delete
             if item.is_dir():
                 shutil.rmtree(item)
+            # if the item is a file, delete
             elif item.is_file():
                 item.unlink()
 
