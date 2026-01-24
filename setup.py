@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='TheOldArchivist',
+    name='The Old Archivist',
     version='1.0.0',
     py_modules=['main'],
     entry_points={
