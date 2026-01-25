@@ -3,7 +3,6 @@
 #   - DO NOT FORGET TO CHANGE TIMEDELTA IN find_archivable_items_in_path() WHEN DONE DEBUGGING AND TESTING
 #   - debug this stupid fucking bastard eating whore licking asshole of a program. FUCK FUCK FUCK FUCK FUCK
 #   - currently it ignores the cutoff date the stupid crap refuses to do a thing i say it just archives everything
-#   - idk why nothing works oh cruel world WHY THE FUCK DOES IT ASK FOR USER INPUT TWICE.
 #   - make a separate GUI tool
 
 
@@ -71,7 +70,7 @@ def find_archivable_items_in_path(main_directory_path):
             # how many days before the file needs to be archived
             still_in_use = max(date_modified, date_accessed) - timedelta(days=180)
             return still_in_use
-    #finally the stupid fucking IDE gave no warnings 
+    #finally the stupid fucking IDE gave no warnings
     return None
 
 # converts files and folders into zip files
@@ -115,6 +114,6 @@ def delete_original_uncompressed_files(main_directory_path):
             elif item.is_file():
                 item.unlink()
 
-main()
+
 
 
