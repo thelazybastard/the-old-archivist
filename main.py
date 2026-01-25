@@ -11,8 +11,10 @@ def main():
         print("Starting tool...")
         # set directory path
         main_directory_path = Path.home() / find_folder()
+        # get cutoff days from user
+        cutoff_days = get_cutoff_days()
         # executes the main functions
-        items_to_archive = convert_old_files_to_zip(main_directory_path)
+        items_to_archive = convert_old_files_to_zip(main_directory_path, cutoff_days)
         delete_original_uncompressed_files(main_directory_path, items_to_archive)
     else:
         print("Type 'do-my-bidding archivist' to launch tool")
@@ -39,6 +41,18 @@ def find_folder():
             # handles wrong path names
             print(f"Invalid path. Please try again. Error: {e}")
 
+# get cutoff days from user
+def get_cutoff_days():
+    while True:
+        try:
+            days = int(input("Enter the number of days. files older than this will be archived: "))
+            if days > 0:
+                return days
+            else:
+                print("Please enter a positive number.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
 # ask users if the tool should run on startup or nah
 #windows_startup_choice = input("Do you want this tool to run on startup? "
 #                               "Tool will need to be launched manually if not. "
@@ -46,7 +60,7 @@ def find_folder():
 
 # create timestamps for when the file/folder was last used,modified or created.
 # only files that have been ALL unused, unmodified, and created a very long time ago can be archived
-def is_item_archivable(item):
+def is_item_archivable(item, cutoff_days):
     # creates timestamps of directories and files
     # creates a log of when they were last used
     modified = item.stat().st_mtime
@@ -58,19 +72,19 @@ def is_item_archivable(item):
 
     #combine the timestamps into one and get the latest date they were used#
     # how many days before the file needs to be archived
-    cutoff = datetime.now() - timedelta(seconds=20)
+    cutoff = datetime.now() - timedelta(days=cutoff_days)
     last_used = max(date_modified, date_accessed)
     return last_used < cutoff
 
 
 # converts files and folders into zip files
-def convert_old_files_to_zip(main_directory_path):
+def convert_old_files_to_zip(main_directory_path, cutoff_days):
     # list all archivable items
     items_to_archive = []
     # goes through every item in directory
     for item in main_directory_path.iterdir():
         # identify items to archive
-        if item.suffix != '.zip' and is_item_archivable(item):
+        if item.suffix != '.zip' and is_item_archivable(item, cutoff_days):
             # appends items to list
             items_to_archive.append(item)
 
@@ -117,7 +131,3 @@ def delete_original_uncompressed_files(main_directory_path, items_to_archive):
             # raise error if it has trouble deleting
             except Exception as e:
                 print(f"Error deleting {item.name}: {e}")
-
-
-
-
