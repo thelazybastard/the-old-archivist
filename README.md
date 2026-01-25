@@ -21,7 +21,7 @@ The Old Archivist scans a specified directory in your home folder and:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/the-old-archivist.git
+git clone https://github.com/thelazybastard/the-old-archivist.git
 cd the-old-archivist
 ```
 
@@ -30,7 +30,7 @@ cd the-old-archivist
 pip install .
 ```
 
-For development mode (editable install):
+For development mode:
 ```bash
 pip install -e .
 ```
