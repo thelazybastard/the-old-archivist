@@ -98,13 +98,7 @@ Contributions are welcome! Feel free to:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Future Enhancements
-
-- [ ] Add support for directories outside the home folder
-- [ ] Implement automatic startup option
-- [ ] Add configurable archival rules
-- [ ] Create a configuration file for user preferences
-- [ ] Add option to restore archived files
+ Add option to restore archived files
 
 ## Author
 
