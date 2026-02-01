@@ -108,7 +108,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-Mon G. (thelazybastard)
+Monish Giani (thelazybastard)
 
 ## Acknowledgments
 
