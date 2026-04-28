@@ -1,3 +1,6 @@
+> **This repository is archived and no longer maintained.**
+> The project has moved to: [Necrologue Compendium](https://github.com/your-username/new-repo-name)
+
 # The Old Archivist
 
 A Python command-line tool that automatically identifies and archives old, unused files and folders in your home directory by compressing them into ZIP files.
